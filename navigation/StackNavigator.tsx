@@ -6,24 +6,32 @@ import QuizScreen from "../screens/QuizScreen";
 import ResultScreen from "../screens/ResultScreen";
 
 const RootStack = createNativeStackNavigator({
+  screenOptions:{
+    headerTitleAlign: "center",
+    headerStyle: {
+      backgroundColor: "cornflowerblue",
+    },
+    headerTitleStyle: {
+      fontSize: 24,
+      fontWeight: "600",
+      color: "#F8F8FF",
+    },
+    headerTintColor: "#F8F8FF",
+  },
   screens: {
     Home: {
       screen: HomeScreen,
       options: {
         title: "Quiz Categories",
-        headerTitleAlign: "center",
-        headerStyle: {
-          backgroundColor: "cornflowerblue",
-        },
-        headerTitleStyle: {
-          fontSize: 24,
-          fontWeight: "600",
-          color: "#F8F8FF",
-        },
       },
     },
-    Quiz: QuizScreen,
-    ResultScreen: ResultScreen,
+    Quiz: {
+      screen: QuizScreen,
+      options: {
+        title: "Quiz",
+      }
+    },
+    Result: ResultScreen,
   },
 });
 
