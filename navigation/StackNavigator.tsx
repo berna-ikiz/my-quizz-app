@@ -6,7 +6,7 @@ import QuizScreen from "../screens/QuizScreen";
 import ResultScreen from "../screens/ResultScreen";
 
 const RootStack = createNativeStackNavigator({
-  screenOptions:{
+  screenOptions: {
     headerTitleAlign: "center",
     headerStyle: {
       backgroundColor: "cornflowerblue",
@@ -17,6 +17,7 @@ const RootStack = createNativeStackNavigator({
       color: "#F8F8FF",
     },
     headerTintColor: "#F8F8FF",
+    headerBackVisible:false
   },
   screens: {
     Home: {
@@ -29,9 +30,14 @@ const RootStack = createNativeStackNavigator({
       screen: QuizScreen,
       options: {
         title: "Quiz",
-      }
+      },
     },
-    Result: ResultScreen,
+    Result: {
+      screen: ResultScreen,
+      options: {
+        title: "Result",
+      },
+    },
   },
 });
 

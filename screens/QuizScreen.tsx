@@ -10,7 +10,7 @@ const QuizScreen = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(1);
   const [showHint, setShowHint] = useState(false);
 
   const handleSheetChanges = useCallback((index: number) => {
@@ -30,12 +30,13 @@ const QuizScreen = () => {
     if (optionIndex === answerIndex) {
       setScore((prev) => prev + 1);
     }
+
     if (currentQuestionIndex + 1 < quizQuestions.length) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
       //TODO: ADD types
       //@ts-ignore
-      navigation.navigate("Result", { score, total: quizQuestions.length });
+      navigation.navigate("Result", { score, total: quizQuestions.length, category });
     }
   };
   return (
