@@ -14,7 +14,7 @@ const QuizScreen = () => {
   const [showHint, setShowHint] = useState(false);
 
   const handleSheetChanges = useCallback((index: number) => {
-    if(index === -1) {
+    if (index === -1) {
       setShowHint(false);
     }
   }, []);
@@ -64,10 +64,20 @@ const QuizScreen = () => {
       >
         <Text style={styles.hintText}> i </Text>
       </TouchableOpacity>
+
+      {currentQuestionIndex !== 0 && (
+        <TouchableOpacity
+          style={styles.prevQuestion}
+          onPress={() => setCurrentQuestionIndex((prev) => prev - 1)}
+          disabled={currentQuestionIndex === 0}
+        >
+          <Text style={styles.prevQuestionText}> ⬅️ Back </Text>
+        </TouchableOpacity>
+      )}
       {showHint && (
         <BottomSheet
           ref={bottomSheetRef}
-          snapPoints={["50%","100%"]}
+          snapPoints={["50%", "100%"]}
           enablePanDownToClose
           onChange={handleSheetChanges}
         >
@@ -126,17 +136,35 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
   },
+  prevQuestion: {
+    backgroundColor: "#F4708F",
+    //backgroundColor: '#70F4D8',
+    //backgroundColor: "#F4D570",
+    position: "absolute",
+    bottom: 32,
+    left: 16,
+    borderRadius: 20,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  prevQuestionText: {
+    color: "#F8F8FF",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   bottomSheetContentContainer: {
     flex: 1,
     padding: 36,
     alignItems: "center",
-    gap:16
-  }, 
-  bottomSheetTitle:{
-    fontSize:28,
+    gap: 16,
   },
-  bottomSheetDescription:{
-    fontSize:22,
-  }
+  bottomSheetTitle: {
+    fontSize: 28,
+  },
+  bottomSheetDescription: {
+    fontSize: 22,
+  },
 });
 export default QuizScreen;
