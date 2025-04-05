@@ -1,44 +1,82 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import questions from "../data/questions";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 const QuizScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const [currentQuestionIndex, setCurrentQuestionIOndex] = useState(0);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [showHint, setShowHint] = useState(false);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    if(index === -1) {
+      setShowHint(false);
+    }
+  }, []);
+
   // TODO : Add types
   // @ts-ignore
   const { category } = route.params;
   const quizQuestions = questions[category];
-  const { question, options, answerIndex, hint } = quizQuestions[currentQuestionIndex];
-  const handleAnswer = (option, optionIndex) =>{
-    if(optionIndex === answerIndex ){
-      setScore(prev =>prev + 1);
+  const { question, options, answerIndex, hint } =
+    quizQuestions[currentQuestionIndex];
+
+  const handleAnswer = (option, optionIndex) => {
+    if (optionIndex === answerIndex) {
+      setScore((prev) => prev + 1);
     }
-    if(currentQuestionIndex + 1 < quizQuestions.length)
-    {
-      setCurrentQuestionIOndex(prev => prev + 1);
-    }else{
+    if (currentQuestionIndex + 1 < quizQuestions.length) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
       //TODO: ADD types
       //@ts-ignore
-       navigation.navigate("Result", {score, total: quizQuestions.length})
+      navigation.navigate("Result", { score, total: quizQuestions.length });
     }
-  }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.question}>{question}</Text>
-      <View style = {styles.optionsContainer}>
+      <View style={styles.optionsContainer}>
         {options.map((x, i) => (
-          <TouchableOpacity 
-          key={x}
-          style={styles.option} 
-          onPress={()=> handleAnswer(x,i)}>
-            <Text style={styles.optionText} adjustsFontSizeToFit numberOfLines={1}>{x}</Text>
+          <TouchableOpacity
+            key={x}
+            style={styles.option}
+            onPress={() => handleAnswer(x, i)}
+          >
+            <Text
+              style={styles.optionText}
+              adjustsFontSizeToFit
+              numberOfLines={1}
+            >
+              {x}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
+      <TouchableOpacity
+        style={styles.hint}
+        onPress={() => setShowHint((prev) => !prev)}
+      >
+        <Text style={styles.hintText}> i </Text>
+      </TouchableOpacity>
+      {showHint && (
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={["50%","100%"]}
+          enablePanDownToClose
+          onChange={handleSheetChanges}
+        >
+          <BottomSheetView style={styles.bottomSheetContentContainer}>
+            <Text style={styles.bottomSheetTitle}> 🔎 Ipucu 🔍</Text>
+            <Text style={styles.bottomSheetDescription}>{hint}</Text>
+          </BottomSheetView>
+        </BottomSheet>
+      )}
     </View>
   );
 };
@@ -48,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     justifyContent: "center",
-    gap:16,
+    gap: 16,
   },
   question: {
     fontSize: 24,
@@ -67,8 +105,38 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 24,
   },
-  optionsContainer:{
+  optionsContainer: {
     gap: 16,
+  },
+  hint: {
+    //backgroundColor: '#F4708F',
+    //backgroundColor: '#70F4D8',
+    backgroundColor: "#F4D570",
+    width: 80,
+    height: 80,
+    position: "absolute",
+    bottom: 32,
+    right: 16,
+    borderRadius: 80,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  hintText: {
+    color: "#F8F8FF",
+    fontSize: 36,
+    fontWeight: "bold",
+  },
+  bottomSheetContentContainer: {
+    flex: 1,
+    padding: 36,
+    alignItems: "center",
+    gap:16
+  }, 
+  bottomSheetTitle:{
+    fontSize:28,
+  },
+  bottomSheetDescription:{
+    fontSize:22,
   }
 });
 export default QuizScreen;
