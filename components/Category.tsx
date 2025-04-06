@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import Button from "../components/Button";
 
 type Category = {
   id: string;
@@ -20,34 +21,31 @@ const Category = ({ category: { id, name }, isCompleted }: Props) => {
     navigation.navigate("Quiz", { category: id });
   };
   return (
-    <TouchableOpacity style={styles.card} onPress={() => handlePressed()}>
-      <Text style={styles.text} adjustsFontSizeToFit numberOfLines={1}>
-        {" "}
-        {name} {isCompleted && "☑"}{" "}
-      </Text>
-    </TouchableOpacity>
+    <Button
+      title={`${name} ${isCompleted && "☑"}`}
+      onPress={handlePressed}
+      customButtonStyles={customButtonStyles}
+      customTextStyle={costomTextStyles}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-    height: 100,
-    backgroundColor: "cornflowerblue",
-    padding: 16,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-  },
-  text: {
-    fontSize: 24,
-    color: "white",
-    textAlign: "center",
-    fontWeight: "600",
-  },
-});
+const customButtonStyles = {
+  flex: 1,
+  height: 100,
+  backgroundColor: "cornflowerblue",
+  padding: 16,
+  borderRadius: 12,
+  alignItems: "center",
+  justifyContent: "center",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.5,
+  shadowRadius: 4,
+};
+const costomTextStyles = {
+  fontSize: 24,
+  color: "white",
+  textAlign: "center",
+  fontWeight: "600",
+};
 export default Category;
