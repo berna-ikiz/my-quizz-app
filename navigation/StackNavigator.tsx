@@ -1,7 +1,10 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
-import { createStaticNavigation } from "@react-navigation/native";
+import {
+  createStaticNavigation,
+  StaticParamList,
+} from "@react-navigation/native";
 import QuizScreen from "../screens/QuizScreen";
 import ResultScreen from "../screens/ResultScreen";
 
@@ -17,7 +20,7 @@ const RootStack = createNativeStackNavigator({
       color: "#F8F8FF",
     },
     headerTintColor: "#F8F8FF",
-    headerBackVisible:false
+    headerBackVisible: false,
   },
   screens: {
     Home: {
@@ -40,6 +43,14 @@ const RootStack = createNativeStackNavigator({
     },
   },
 });
+
+type RootStackParamList = StaticParamList<typeof RootStack>;
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
 
 const StackNavigator = createStaticNavigation(RootStack);
 

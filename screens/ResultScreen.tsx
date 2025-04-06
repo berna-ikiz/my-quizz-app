@@ -1,20 +1,32 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  StaticScreenProps,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import questions from "../data/questions";
 
-const ResultScreen = () => {
-  const route = useRoute();
+type CategoryType = keyof typeof questions;
+
+type Props = StaticScreenProps<{
+  score: number;
+  total: number;
+  category: CategoryType;
+}>;
+
+const ResultScreen = ({ route }: Props) => {
   const navigation = useNavigation();
 
   // TODO: assign types
   // @ts-ignore
   const { score, total, category } = route.params;
   const handleHome = () => {
-       navigation.navigate("Home");
-  }
-  const handleRetry = () =>{
-    navigation.navigate("Quiz", { category: category});
-  }
+    navigation.navigate("Home");
+  };
+  const handleRetry = () => {
+    navigation.navigate("Quiz", { category: category });
+  };
 
   return (
     <View style={styles.container}>
