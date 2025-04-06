@@ -3,6 +3,7 @@ import React from "react";
 import { StaticScreenProps, useNavigation } from "@react-navigation/native";
 import questions from "../data/questions";
 import Button from "../components/Button";
+import { HomeIcon, RetryIcon } from "../utils/icon";
 
 type CategoryType = keyof typeof questions;
 
@@ -30,24 +31,21 @@ const ResultScreen = ({ route }: Props) => {
         Correct Answers: {score} / {total}
       </Text>
       <Button
-        title="🏠 Turn Back to The Home Page"
+        title="Turn Back to The Home Page"
         onPress={handleHome}
-        customButtonStyles={homeButtonStyle}
+        customButtonStyles={styles.homeButtonStyle}
+        icon={<HomeIcon size={36}/>}
+        disabled={false}
       />
       <Button
-        title="🔂 Play Again"
+        title="Play Again"
         onPress={handleRetry}
-        customButtonStyles={retryButtonStyle}
+        customButtonStyles={styles.retryButtonStyle}
+        icon={<RetryIcon size={36}/>}
+        disabled={false}
       />
     </View>
   );
-};
-
-const homeButtonStyle = {
-  backgroundColor: "#F4708F",
-};
-const retryButtonStyle = {
-  backgroundColor: "#4A7ACD",
 };
 
 const styles = StyleSheet.create({
@@ -63,6 +61,14 @@ const styles = StyleSheet.create({
   },
   scoreText: {
     fontSize: 20,
+  },
+  retryButtonStyle: {
+    backgroundColor: "#4A7ACD",
+    width: "100%",
+  },
+  homeButtonStyle: {
+    backgroundColor: "#F4708F",
+    width: "100%",
   },
 });
 
