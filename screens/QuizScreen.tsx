@@ -18,7 +18,7 @@ const QuizScreen = ({ route }: Props) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(1);
+  const [score, setScore] = useState(0);
   const [showHint, setShowHint] = useState(false);
 
   const handleSheetChanges = useCallback((index: number) => {
@@ -33,7 +33,10 @@ const QuizScreen = ({ route }: Props) => {
     quizQuestions[currentQuestionIndex];
 
   const handleAnswer = async (option: string, optionIndex: number) => {
+    console.log(optionIndex)
+    console.log(answerIndex)
     if (optionIndex === answerIndex) {
+      console.log('here')
       setScore((prev) => prev + 1);
     }
     if (currentQuestionIndex + 1 < quizQuestions.length) {
