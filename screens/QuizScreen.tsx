@@ -1,11 +1,17 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useCallback, useRef, useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { StaticScreenProps, useNavigation } from "@react-navigation/native";
 import questions from "../data/questions";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { saveCompletedTest } from "../utils/storage";
 
-const QuizScreen = () => {
-  const route = useRoute();
+type CategoryType = keyof typeof questions;
+
+type Props = StaticScreenProps<{
+  category: CategoryType;
+}>;
+
+const QuizScreen = ({route}: Props) => {
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -26,35 +32,42 @@ const QuizScreen = () => {
   const { question, options, answerIndex, hint } =
     quizQuestions[currentQuestionIndex];
 
-  const handleAnswer = (option, optionIndex) => {
+  const handleAnswer = async (option : string, optionIndex: number) => {
     if (optionIndex === answerIndex) {
       setScore((prev) => prev + 1);
     }
-
     if (currentQuestionIndex + 1 < quizQuestions.length) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
+      if (score === quizQuestions.length) {
+        await saveCompletedTest(category);
+      }
+       
       //TODO: ADD types
       //@ts-ignore
-      navigation.navigate("Result", { score, total: quizQuestions.length, category });
+      navigation.navigate("Result", {
+        score,
+        total: quizQuestions.length,
+        category,
+      });
     }
   };
   return (
     <View style={styles.container}>
       <Text style={styles.question}>{question}</Text>
       <View style={styles.optionsContainer}>
-        {options.map((x, i) => (
+        {options.map((option, i) => (
           <TouchableOpacity
-            key={x}
+            key={option}
             style={styles.option}
-            onPress={() => handleAnswer(x, i)}
+            onPress={() => handleAnswer(option, i)}
           >
             <Text
               style={styles.optionText}
               adjustsFontSizeToFit
               numberOfLines={1}
             >
-              {x}
+              {option}
             </Text>
           </TouchableOpacity>
         ))}
