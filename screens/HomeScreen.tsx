@@ -1,10 +1,8 @@
-import React from "react";
-import {
-  View,
-  FlatList,
-  StyleSheet,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, FlatList, StyleSheet } from "react-native";
 import Category from "../components/Category";
+import { useNavigation } from "@react-navigation/native";
+import { getCompletedTests } from "../utils/storage";
 
 const categories = [
   { id: "history", name: "Tarih" },
@@ -13,12 +11,28 @@ const categories = [
   { id: "music", name: "Müzik" },
 ];
 const HomeScreen = () => {
+  const navigation = useNavigation();
+  const [completedTests, setCompletedTests] = useState([]);
+
+  useEffect(() => {
+    function fetchCompletedTest() {
+      getCompletedTests().then((tests) => setCompletedTests(tests));
+    }
+    const unsubscribe = navigation.addListener("focus", fetchCompletedTest);
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <View>
         <FlatList
           data={categories}
-          renderItem={({ item }) => <Category category={item} />}
+          renderItem={({ item }) => (
+            <Category
+              category={item}
+              isCompleted={completedTests.includes(item.id)}
+            />
+          )}
           keyExtractor={(item) => item.id}
           numColumns={2}
           //space between lines

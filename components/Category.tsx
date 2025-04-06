@@ -9,9 +9,10 @@ type Category = {
 
 type Props = {
   category: Category;
+  isCompleted: boolean;
 };
 
-const Category = ({ category: { id, name } }: Props) => {
+const Category = ({ category: { id, name }, isCompleted }: Props) => {
   const navigation = useNavigation();
   const handlePressed = () => {
     // TODO: Fix Types
@@ -20,7 +21,10 @@ const Category = ({ category: { id, name } }: Props) => {
   };
   return (
     <TouchableOpacity style={styles.card} onPress={() => handlePressed()}>
-      <Text style={styles.text}> {name} </Text>
+      <Text style={styles.text} adjustsFontSizeToFit numberOfLines={1}>
+        {" "}
+        {name} {isCompleted && "☑"}{" "}
+      </Text>
     </TouchableOpacity>
   );
 };
