@@ -9,7 +9,7 @@ const categories = [
   { id: "general", name: "Genel Kültür" },
   { id: "movies", name: "Filmler" },
   { id: "music", name: "Müzik" },
-];
+] as const;
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [completedTests, setCompletedTests] = useState<string[]>([]);
