@@ -4,6 +4,8 @@ import { StaticScreenProps, useNavigation } from "@react-navigation/native";
 import questions from "../data/questions";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { saveCompletedTest } from "../utils/storage";
+import { BackIcon, HintIcon } from "../utils/icon";
+import Button from "../components/Button";
 
 type CategoryType = keyof typeof questions;
 
@@ -68,21 +70,21 @@ const QuizScreen = ({ route }: Props) => {
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity
-        style={styles.hint}
+      <Button
+        customButtonStyles={styles.hint}
         onPress={() => setShowHint((prev) => !prev)}
-      >
-        <Text style={styles.hintText}> i </Text>
-      </TouchableOpacity>
-
+        customTextStyle={styles.hintText}
+        icon={<HintIcon size={40} />}
+        disabled={false}
+      />
       {currentQuestionIndex !== 0 && (
-        <TouchableOpacity
-          style={styles.prevQuestion}
+        <Button
+          customButtonStyles={styles.prevQuestion}
           onPress={() => setCurrentQuestionIndex((prev) => prev - 1)}
+          customTextStyle={styles.prevQuestionText}
+          icon={<BackIcon size={40} />}
           disabled={currentQuestionIndex === 0}
-        >
-          <Text style={styles.prevQuestionText}> ⬅️ Back </Text>
-        </TouchableOpacity>
+        />
       )}
       {showHint && (
         <BottomSheet
@@ -129,8 +131,6 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   hint: {
-    //backgroundColor: '#F4708F',
-    //backgroundColor: '#70F4D8',
     backgroundColor: "#F4D570",
     width: 80,
     height: 80,
@@ -148,12 +148,11 @@ const styles = StyleSheet.create({
   },
   prevQuestion: {
     backgroundColor: "#F4708F",
-    //backgroundColor: '#70F4D8',
-    //backgroundColor: "#F4D570",
+    width: "24%",
     position: "absolute",
     bottom: 32,
     left: 16,
-    borderRadius: 20,
+    borderRadius: 28,
     paddingVertical: 16,
     paddingHorizontal: 16,
     justifyContent: "center",
