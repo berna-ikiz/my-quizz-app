@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import {
   StaticScreenProps,
   useNavigation,
-  useRoute,
 } from "@react-navigation/native";
 import questions from "../data/questions";
+import Button from "../components/Button";
 
 type CategoryType = keyof typeof questions;
 
@@ -34,15 +34,18 @@ const ResultScreen = ({ route }: Props) => {
       <Text style={styles.scoreText}>
         Correct Answers: {score} / {total}
       </Text>
-      <TouchableOpacity style={styles.homeButton} onPress={handleHome}>
-        <Text style={styles.homeText}>🏠 Turn Back to The Home Page</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.retryButton} onPress={handleRetry}>
-        <Text style={styles.retryText}>🔂 Play Again</Text>
-      </TouchableOpacity>
+      <Button title= "🏠 Turn Back to The Home Page" onPress={handleHome} customButtonStyles={homeButtonStyle}/>
+      <Button title= "🔂 Play Again" onPress={handleRetry} customButtonStyles={retryButtonStyle}/>
     </View>
   );
 };
+
+const homeButtonStyle={
+  backgroundColor: "#F4708F",
+}
+const retryButtonStyle={
+  backgroundColor: "#4A7ACD",
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -57,29 +60,7 @@ const styles = StyleSheet.create({
   },
   scoreText: {
     fontSize: 20,
-  },
-  homeButton: {
-    backgroundColor: "#F4708F",
-    width: "100%",
-    paddingVertical: 16,
-    borderRadius: 20,
-  },
-  homeText: {
-    color: "#F8F8FF",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  retryButton: {
-    backgroundColor: "#4A7ACD",
-    width: "100%",
-    paddingVertical: 16,
-    borderRadius: 20,
-  },
-  retryText: {
-    color: "#F8F8FF",
-    fontSize: 16,
-    textAlign: "center",
-  },
+  }
 });
 
 export default ResultScreen;

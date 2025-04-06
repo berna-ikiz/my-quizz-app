@@ -11,7 +11,7 @@ type Props = StaticScreenProps<{
   category: CategoryType;
 }>;
 
-const QuizScreen = ({route}: Props) => {
+const QuizScreen = ({ route }: Props) => {
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -32,7 +32,7 @@ const QuizScreen = ({route}: Props) => {
   const { question, options, answerIndex, hint } =
     quizQuestions[currentQuestionIndex];
 
-  const handleAnswer = async (option : string, optionIndex: number) => {
+  const handleAnswer = async (option: string, optionIndex: number) => {
     if (optionIndex === answerIndex) {
       setScore((prev) => prev + 1);
     }
@@ -42,7 +42,7 @@ const QuizScreen = ({route}: Props) => {
       if (score === quizQuestions.length) {
         await saveCompletedTest(category);
       }
-       
+
       //TODO: ADD types
       //@ts-ignore
       navigation.navigate("Result", {
