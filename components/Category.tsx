@@ -3,10 +3,13 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/Button";
 
+
+type CategoryId = "history" | "movies" | "music" | "general";
+
 type Category = {
-  id: string;
+  id: CategoryId;
   name: string;
-};
+}; 
 
 type Props = {
   category: Category;
@@ -16,8 +19,6 @@ type Props = {
 const Category = ({ category: { id, name }, isCompleted }: Props) => {
   const navigation = useNavigation();
   const handlePressed = () => {
-    // TODO: Fix Types
-    // @ts-ignore
     navigation.navigate("Quiz", { category: id });
   };
   return (

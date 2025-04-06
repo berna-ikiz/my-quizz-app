@@ -25,8 +25,6 @@ const QuizScreen = ({ route }: Props) => {
     }
   }, []);
 
-  // TODO : Add types
-  // @ts-ignore
   const { category } = route.params;
   const quizQuestions = questions[category];
   const { question, options, answerIndex, hint } =
@@ -43,8 +41,6 @@ const QuizScreen = ({ route }: Props) => {
         await saveCompletedTest(category);
       }
 
-      //TODO: ADD types
-      //@ts-ignore
       navigation.navigate("Result", {
         score,
         total: quizQuestions.length,

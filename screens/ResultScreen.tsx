@@ -1,9 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import {
-  StaticScreenProps,
-  useNavigation,
-} from "@react-navigation/native";
+import { StaticScreenProps, useNavigation } from "@react-navigation/native";
 import questions from "../data/questions";
 import Button from "../components/Button";
 
@@ -18,8 +15,6 @@ type Props = StaticScreenProps<{
 const ResultScreen = ({ route }: Props) => {
   const navigation = useNavigation();
 
-  // TODO: assign types
-  // @ts-ignore
   const { score, total, category } = route.params;
   const handleHome = () => {
     navigation.navigate("Home");
@@ -34,18 +29,26 @@ const ResultScreen = ({ route }: Props) => {
       <Text style={styles.scoreText}>
         Correct Answers: {score} / {total}
       </Text>
-      <Button title= "🏠 Turn Back to The Home Page" onPress={handleHome} customButtonStyles={homeButtonStyle}/>
-      <Button title= "🔂 Play Again" onPress={handleRetry} customButtonStyles={retryButtonStyle}/>
+      <Button
+        title="🏠 Turn Back to The Home Page"
+        onPress={handleHome}
+        customButtonStyles={homeButtonStyle}
+      />
+      <Button
+        title="🔂 Play Again"
+        onPress={handleRetry}
+        customButtonStyles={retryButtonStyle}
+      />
     </View>
   );
 };
 
-const homeButtonStyle={
+const homeButtonStyle = {
   backgroundColor: "#F4708F",
-}
-const retryButtonStyle={
+};
+const retryButtonStyle = {
   backgroundColor: "#4A7ACD",
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
   },
   scoreText: {
     fontSize: 20,
-  }
+  },
 });
 
 export default ResultScreen;
